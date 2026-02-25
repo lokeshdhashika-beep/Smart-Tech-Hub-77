@@ -126,9 +126,13 @@ const DB = {
     getOrders: async function () {
         const user = this.getCurrentUser();
         if (!user) return [];
-        const url = user.role === 'admin' ? '/api/orders/all' : '/api/orders';
-        const res = await fetch(url, { headers: this.getHeaders() });
-        if (res.ok) return await res.json();
+        try {
+            const url = user.role === 'admin' ? '/api/orders/all' : '/api/orders';
+            const res = await fetch(url, { headers: this.getHeaders() });
+            if (res.ok) return await res.json();
+        } catch (e) {
+            console.error(e);
+        }
         return [];
     },
 

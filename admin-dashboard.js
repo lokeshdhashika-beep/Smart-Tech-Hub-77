@@ -248,7 +248,8 @@ async function renderOrdersTable() {
 }
 
 // Users View
-function renderUsersTable() {
+async function renderUsersTable() {
+    users = await DB.getUsers();
     const tbody = document.getElementById('users-table-body');
     if (!tbody) return;
 
