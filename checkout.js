@@ -129,6 +129,10 @@ window.placeOrder = async function () {
         }
     };
 
-    await DB.saveOrder(order);
-    document.getElementById('success-overlay').classList.remove('hidden');
+    try {
+        await DB.saveOrder(order);
+        document.getElementById('success-overlay').classList.remove('hidden');
+    } catch (err) {
+        alert("Checkout Error: " + err.message);
+    }
 };

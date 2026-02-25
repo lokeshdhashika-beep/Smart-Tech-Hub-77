@@ -137,10 +137,15 @@ const DB = {
     },
 
     saveOrder: async function (order) {
-        await fetch('/api/orders', {
+        const res = await fetch('/api/orders', {
             method: 'POST', headers: this.getHeaders(),
             body: JSON.stringify(order)
         });
+        if (!res.ok) {
+            const data = await res.json();
+            throw new Error(data.error || 'Failed to process order');
+        }
+        return await res.json();
     },
 
     getUsers: async function () {

@@ -24,6 +24,7 @@ router.post('/', authenticate, async (req, res) => {
 
         res.status(201).json({ message: 'Order created successfully', orderId });
     } catch (err) {
+        console.error('Order Creation Error:', err.message);
         res.status(500).json({ error: err.message });
     }
 });
