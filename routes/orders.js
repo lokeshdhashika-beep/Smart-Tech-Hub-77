@@ -32,15 +32,17 @@ router.post('/', authenticate, async (req, res) => {
 router.get('/', authenticate, async (req, res) => {
     try {
         const orders = await db.allAsync(`SELECT * FROM orders WHERE user_id = ? ORDER BY timestamp DESC`, [req.user.id]);
-        // Also fetch items for each order
-        for (let order of orders) {
+
+        // Parallelize items fetching to avoid N+1 query lag
+        await Promise.all(orders.map(async (order) => {
             order.items = await db.allAsync(`
                 SELECT oi.quantity, oi.price, p.name, p.image 
                 FROM order_items oi 
                 JOIN products p ON oi.product_id = p.id 
                 WHERE oi.order_id = ?
             `, [order.id]);
-        }
+        }));
+
         res.json(orders);
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -56,14 +58,17 @@ router.get('/all', authenticate, requireAdmin, async (req, res) => {
             JOIN users u ON o.user_id = u.id 
             ORDER BY timestamp DESC
         `);
-        for (let order of orders) {
+
+        // Parallelize fetching items mapped to orders
+        await Promise.all(orders.map(async (order) => {
             order.items = await db.allAsync(`
                 SELECT oi.quantity, oi.price, p.name 
                 FROM order_items oi 
                 JOIN products p ON oi.product_id = p.id 
                 WHERE oi.order_id = ?
             `, [order.id]);
-        }
+        }));
+
         res.json(orders);
     } catch (err) {
         res.status(500).json({ error: err.message });
