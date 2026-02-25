@@ -1,0 +1,12 @@
+
+// --- PUBLIC ACCESS ---
+
+function renderPublicAccess() {
+    // We can't get the real local IP from JS, so we'll show a placeholder or ask them to check the console
+    const ipDisplay = document.getElementById('local-ip-display');
+    if (ipDisplay) {
+        ipDisplay.innerHTML = `
+            <span style="font-size: 14px; color: var(--accent);">Check the black server window!</span>
+        `;
+    }
+}

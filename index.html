@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Tech Hub | Premium Computer Components</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="glass-panel">
+        <div class="menu-toggle" id="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="logo" onclick="window.location.href='index.html'">
+            <i class="fas fa-microchip"></i>
+            <span>Smart Tech Hub</span>
+        </div>
+
+        <div class="search-bar" style="flex: 1; max-width: 500px; margin: 0 40px; position: relative;">
+            <input type="text" id="search-input" placeholder="Search for components..."
+                style="width: 100%; padding: 12px 20px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 12px; color: white;">
+            <i class="fas fa-search" style="position: absolute; right: 15px; top: 12px; color: var(--text-muted);"></i>
+        </div>
+
+        <div class="nav-icons">
+            <!-- Dynamic User/Admin Section -->
+            <div id="user-section" style="display: flex; align-items: center; gap: 10px;">
+                <a href="login.html" class="nav-btn" title="Login">
+                    <i class="fas fa-user"></i>
+                </a>
+            </div>
+
+            <div class="nav-btn" id="builder-btn" title="AI PC Builder">
+                <i class="fas fa-wand-magic-sparkles"></i>
+            </div>
+
+            <div class="nav-btn" id="wishlist-btn">
+                <i class="far fa-heart"></i>
+                <span class="badge hidden" id="wishlist-count">0</span>
+            </div>
+
+            <div class="nav-btn" id="cart-btn">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="badge hidden" id="cart-count">0</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Product Details Modal -->
+    <div class="modal-overlay" id="product-details-modal">
+        <div class="glass-panel detail-card">
+            <button class="close-modal" id="close-details"><i class="fas fa-times"></i></button>
+            <div id="product-detail-content">
+                <!-- Content will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- PC Builder Wizard Modal -->
+    <div class="modal-overlay" id="builder-modal">
+        <div class="glass-panel builder-card">
+            <button class="close-modal" id="close-builder"><i class="fas fa-times"></i></button>
+            <div id="builder-wizard-content">
+                <!-- Wizard content will be injected here -->
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal-overlay" id="sidebar-backdrop"></div>
+
+    <!-- Buy Now / Inquiry Modal -->
+    <!-- Quick Inquiry Modal -->
+    <!-- Buy Now / Inquiry Modal -->
+    <div class="modal-overlay" id="buy-now-modal">
+        <div class="modal-content glass-panel" style="max-width: 600px; padding: 0; overflow: hidden;">
+            <div class="checkout-header"
+                style="background: rgba(255,255,255,0.03); padding: 25px 30px; border-bottom: 1px solid var(--glass-border); position: relative;">
+                <button class="close-btn" id="close-buy-now"
+                    style="position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.05); border: none; color: white; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; cursor: pointer; transition: 0.3s; z-index: 10;">&times;</button>
+                <div
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-right: 40px;">
+                    <div class="logo-small"
+                        style="font-weight: 800; color: var(--primary); font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase;">
+                        Smart Tech Hub</div>
+                    <div class="step-indicator" style="display: flex; gap: 8px;">
+                        <div class="step-dot active" data-step="1"></div>
+                        <div class="step-dot" data-step="2"></div>
+                        <div class="step-dot" data-step="3"></div>
+                    </div>
+                </div>
+                <h2 id="modal-product-name" style="font-size: 1.6rem; color: white; margin: 0; font-weight: 700;">Direct
+                    Inquiry</h2>
+            </div>
+
+            <div class="modal-body" style="padding: 25px 30px 30px;">
+
+                <div id="buy-now-form-container">
+                    <div id="buy-now-summary" class="glass-panel"
+                        style="margin-bottom: 25px; padding: 15px; background: rgba(0, 217, 255, 0.05); border: 1px solid rgba(0, 217, 255, 0.1);">
+                        <!-- Summary here -->
+                    </div>
+
+                    <form id="buy-now-form" class="wizard-form">
+                        <input type="hidden" id="buy-now-product-id">
+
+                        <!-- Step 1: Customer Details -->
+                        <div class="wiz-step active" id="wiz-step-1">
+                            <h3>Contact Details</h3>
+                            <div class="form-grid">
+                                <div class="form-group floating">
+                                    <input type="text" id="buyer-name" placeholder=" " required>
+                                    <label for="buyer-name">Full Name</label>
+                                </div>
+                                <div class="form-group floating">
+                                    <input type="email" id="buyer-email" placeholder=" " required>
+                                    <label for="buyer-email">Email Address</label>
+                                </div>
+                                <div class="form-group floating">
+                                    <input type="tel" id="buyer-phone" placeholder=" " required>
+                                    <label for="buyer-phone">Phone Number</label>
+                                </div>
+                                <div class="form-group floating">
+                                    <input type="text" id="buyer-pin" placeholder=" " required>
+                                    <label for="buyer-pin">PIN Code</label>
+                                </div>
+                            </div>
+                            <div class="actions" style="margin-top: 30px;">
+                                <button type="button" class="btn-primary" onclick="switchWizStep(2)"
+                                    style="width: 100%; padding: 15px; border-radius: 12px; font-weight: bold; cursor: pointer;">Continue
+                                    to Shipping</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Shipping Address -->
+                        <div class="wiz-step" id="wiz-step-2">
+                            <h3>Shipping Address</h3>
+                            <div class="form-grid">
+                                <div class="form-group floating" style="grid-column: span 2;">
+                                    <textarea id="buyer-address" placeholder=" " required></textarea>
+                                    <label for="buyer-address">Complete Address</label>
+                                </div>
+                                <div class="form-group floating">
+                                    <input type="text" id="buyer-city" placeholder=" " required>
+                                    <label for="buyer-city">City/Town</label>
+                                </div>
+                                <div class="form-group floating">
+                                    <input type="text" id="buyer-landmark" placeholder=" ">
+                                    <label for="buyer-landmark">Landmark (Optional)</label>
+                                </div>
+                            </div>
+                            <div class="actions" style="display: flex; gap: 15px; margin-top: 30px;">
+                                <button type="button" class="btn-secondary" onclick="switchWizStep(1)"
+                                    style="flex: 1; padding: 15px; border-radius: 12px; font-weight: bold; cursor: pointer; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: white;">Back</button>
+                                <button type="button" class="btn-primary" onclick="switchWizStep(3)"
+                                    style="flex: 1; padding: 15px; border-radius: 12px; font-weight: bold; cursor: pointer;">Continue
+                                    to Payment</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Payment Method -->
+                        <div class="wiz-step" id="wiz-step-3">
+                            <h3>Payment Method</h3>
+                            <input type="hidden" id="selected-payment-method" value="upi">
+
+                            <div class="payment-grid">
+                                <div class="pay-option active" data-method="upi" onclick="selectPaymentMethod('upi')">
+                                    <i class="fas fa-qrcode"></i>
+                                    <span>UPI QR</span>
+                                </div>
+                                <div class="pay-option" data-method="phone" onclick="selectPaymentMethod('phone')">
+                                    <i class="fas fa-mobile-alt"></i>
+                                    <span>PhonePe</span>
+                                </div>
+                                <div class="pay-option" data-method="cod" onclick="selectPaymentMethod('cod')">
+                                    <i class="fas fa-truck"></i>
+                                    <span>COD</span>
+                                </div>
+                            </div>
+
+                            <div id="payment-details-view"
+                                style="margin-top: 25px; padding: 20px; background: rgba(255,255,255,0.03); border-radius: 12px; min-height: 150px; display: flex; align-items: center; justify-content: center;">
+                                <!-- Dynamic payment UI -->
+                                <div id="upi-qr-view" style="text-align: center;">
+                                    <p style="margin-bottom: 15px; font-size: 0.9rem; color: var(--text-muted);">Scan QR
+                                        to pay securely via any UPI App</p>
+                                    <div id="direct-qr-code"
+                                        style="background: white; padding: 10px; border-radius: 8px; display: inline-block;">
+                                    </div>
+                                </div>
+                                <div id="phone-view" class="hidden" style="text-align: center;">
+                                    <p style="margin-bottom: 10px; color: var(--text-muted);">Pay securely using PhonePe
+                                    </p>
+                                    <div style="font-size: 1.2rem; font-weight: bold; color: var(--primary);">+91 98944
+                                        65996</div>
+                                </div>
+                                <div id="cod-view" class="hidden" style="text-align: center;">
+                                    <p><i class="fas fa-info-circle"></i> Pay in cash when your product arrives at your
+                                        doorstep.</p>
+                                </div>
+                            </div>
+
+                            <div class="actions" style="display: flex; gap: 15px; margin-top: 35px;">
+                                <button type="button" class="btn-secondary" onclick="switchWizStep(2)"
+                                    style="flex: 1; padding: 15px; border-radius: 12px; font-weight: bold; cursor: pointer; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: white;">Back</button>
+                                <button type="submit" class="btn-primary"
+                                    style="flex: 1; padding: 15px; border-radius: 12px; font-weight: bold; cursor: pointer;">Place
+                                    Inquiry</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Success State -->
+                <div id="buy-now-success" class="hidden" style="text-align: center; padding: 50px 30px;">
+                    <div class="success-icon"
+                        style="width: 80px; height: 80px; background: var(--accent); color: white; font-size: 2rem; display: grid; place-items: center; border-radius: 50%; margin: 0 auto 20px;">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <h2 style="margin-bottom: 15px; font-size: 1.6rem; color: white;">Inquiry Placed Successfully!</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 30px; line-height: 1.6;">Thank you for your
+                        interest. We've received your inquiry and our team will contact you shortly to confirm the
+                        details.</p>
+                    <button class="btn-primary" onclick="window.location.reload()"
+                        style="width: 100%; padding: 15px; border-radius: 12px; font-weight: bold; cursor: pointer;">Continue
+                        Shopping</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <!-- Sidebar -->
+        <aside class="sidebar glass-panel">
+            <div class="sidebar-header"
+                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3>Categories</h3>
+                <div id="close-mobile-menu" class="nav-btn mobile-only" style="display: none;">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+            <ul class="category-list" id="category-list">
+                <!-- Categories will be injected here -->
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content-area">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">Featured Components</h2>
+                    <p style="color: var(--text-muted);" id="category-description">Premium hardware for your dream build
+                    </p>
+                </div>
+                <!-- Sort dropdown could go here -->
+            </div>
+
+            <div class="grid-container" id="product-grid">
+                <!-- Products will be injected here -->
+            </div>
+
+
+        </main>
+    </div>
+
+    <!-- Cart Modal/Sidebar -->
+    <div class="modal-overlay" id="cart-modal">
+        <div class="cart-sidebar">
+            <div class="cart-header">
+                <h2>Your Cart</h2>
+                <button class="close-cart" id="close-cart"><i class="fas fa-times"></i></button>
+            </div>
+
+            <div class="cart-items" id="cart-items-container">
+                <!-- Cart items -->
+            </div>
+
+            <div class="cart-footer">
+                <div class="total-row">
+                    <span>Total</span>
+                    <span id="cart-total">₹0</span>
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button class="primary-btn" id="clear-cart-btn"
+                        style="background: rgba(255, 71, 87, 0.2); color: #ff4757; border: 1px solid #ff4757; width: auto;">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                    <button class="primary-btn" id="checkout-btn">
+                        Pay Now <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wishlist Modal/Sidebar -->
+    <div class="modal-overlay" id="wishlist-modal">
+        <div class="cart-sidebar">
+            <div class="cart-header">
+                <h2>Your Wishlist</h2>
+                <button class="close-cart" id="close-wishlist"><i class="fas fa-times"></i></button>
+            </div>
+
+            <div class="cart-items" id="wishlist-items-container">
+                <!-- Wishlist items -->
+            </div>
+
+            <div class="cart-footer">
+                <button class="primary-btn" onclick="moveAllToCart()">
+                    <i class="fas fa-cart-plus"></i> Move All to Cart
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>

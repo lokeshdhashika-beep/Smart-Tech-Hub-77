@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | Smart Tech Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="checkout.css">
+</head>
+
+<body>
+    <div class="checkout-container">
+        <div class="checkout-card glass-panel" id="unified-checkout">
+            <div class="checkout-header">
+                <div class="logo-small">Smart Tech Hub</div>
+                <div class="step-indicator">
+                    <div class="step-dot active" id="dot-1"></div>
+                    <div class="step-dot" id="dot-2"></div>
+                    <div class="step-dot" id="dot-3"></div>
+                </div>
+            </div>
+
+            <div class="checkout-content">
+                <!-- Step 1: Summary & Details -->
+                <div class="checkout-step active" id="step-1">
+                    <h2>Shipping Details</h2>
+                    <div class="order-summary-mini" id="order-summary">
+                        <!-- Items list here -->
+                    </div>
+                    <form id="details-form">
+                        <div class="form-grid">
+                            <input type="text" id="cust-name" placeholder="Full Name" required>
+                            <input type="email" id="cust-email" placeholder="Email Address" required>
+                            <input type="tel" id="cust-phone" placeholder="Phone Number" required>
+                            <input type="text" id="cust-pin" placeholder="PIN Code" required>
+                            <textarea id="cust-address" placeholder="Complete Address" style="grid-column: span 2;"
+                                required></textarea>
+                        </div>
+                        <div class="actions">
+                            <button type="button" class="btn-primary" onclick="goToStep(2)">Continue to Payment</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Step 2: Payment -->
+                <div class="checkout-step" id="step-2">
+                    <h2>Payment Method</h2>
+                    <div class="payment-grid">
+                        <div class="pay-option active" onclick="setPayment('upi')">
+                            <i class="fas fa-qrcode"></i>
+                            <span>UPI QR</span>
+                        </div>
+                        <div class="pay-option" onclick="setPayment('phone')">
+                            <i class="fas fa-mobile-alt"></i>
+                            <span>PhonePe</span>
+                        </div>
+                        <div class="pay-option" onclick="setPayment('cod')">
+                            <i class="fas fa-truck"></i>
+                            <span>COD</span>
+                        </div>
+                    </div>
+
+                    <div id="payment-view" class="glass-panel payment-details">
+                        <!-- Dynamic Payment UI -->
+                    </div>
+
+                    <div class="actions">
+                        <button type="button" class="btn-secondary" onclick="goToStep(1)">Back</button>
+                        <button type="button" class="btn-primary" onclick="placeOrder()">Place Order</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Overlay -->
+        <div id="success-overlay" class="hidden">
+            <div class="success-card glass-panel">
+                <div class="success-icon"><i class="fas fa-check"></i></div>
+                <h2>Order Placed Successfully!</h2>
+                <p>Thank you for shopping with us. Your order will be processed shortly.</p>
+                <button class="btn-primary" onclick="window.location.href='index.html'">Continue Shopping</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Data & Logic -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="data.js"></script>
+    <script src="checkout.js"></script>
+</body>
+
+</html>

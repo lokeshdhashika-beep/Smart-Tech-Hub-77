@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Smart Tech Hub</title>
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;700;800&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Background Shapes */
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            background-color: #05080d;
+        }
+
+        .bg-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 217, 255, 0.1) 0%, transparent 70%);
+            top: -200px;
+            left: -200px;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .bg-glow-alt {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(157, 78, 221, 0.1) 0%, transparent 70%);
+            bottom: -150px;
+            right: -150px;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Form Animation System */
+        .auth-perspective {
+            width: 100%;
+            max-width: 480px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .auth-card {
+            width: 100%;
+            padding: 40px;
+            background: #0f1419;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            display: none;
+            opacity: 0;
+            transform: scale(0.95) translateY(20px);
+        }
+
+        .auth-card.active {
+            display: block;
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            animation: cardEnter 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes cardEnter {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .auth-card.exit {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: cardExit 0.4s cubic-bezier(0.4, 0, 1, 1) forwards;
+            pointer-events: none;
+        }
+
+        @keyframes cardExit {
+            from {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+
+            to {
+                opacity: 0;
+                transform: scale(0.95) translateY(-20px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .auth-container {
+                padding: 0;
+            }
+
+            .auth-perspective {
+                max-width: 100%;
+                min-height: 100vh;
+            }
+
+            .auth-card {
+                padding: 40px 25px;
+                border-radius: 0;
+                min-height: 100vh;
+                display: none;
+                /* Keep base display none */
+                flex-direction: column;
+                justify-content: center;
+                border: none;
+            }
+
+            .auth-card.active {
+                display: flex;
+            }
+
+            .auth-logo {
+                font-size: 26px;
+                margin-bottom: 20px;
+            }
+
+            .auth-title {
+                font-size: 24px;
+            }
+        }
+
+        .auth-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 35px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .auth-logo i {
+            font-size: 42px;
+            background: var(--gradient-main);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(0, 217, 255, 0.4));
+        }
+
+        .auth-logo span {
+            background: var(--gradient-main);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+
+        .auth-logo::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .auth-logo:hover::after {
+            width: 100%;
+        }
+
+        .auth-title {
+            color: var(--text-main);
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .auth-subtitle {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        /* Modern Input Fields */
+        .input-group {
+            position: relative;
+            margin-bottom: 28px;
+            text-align: left;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 16px 16px 16px 50px;
+            background: linear-gradient(135deg, rgba(10, 14, 23, 0.8), rgba(20, 26, 37, 0.6));
+            border: 2px solid transparent;
+            border-radius: 14px;
+            color: white;
+            font-family: inherit;
+            font-size: 15px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            outline: none;
+            background-clip: padding-box;
+            position: relative;
+        }
+
+        .input-group::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 14px;
+            padding: 2px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            pointer-events: none;
+            opacity: 0.5;
+            transition: opacity 0.4s;
+        }
+
+        .input-group:focus-within::before {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            opacity: 1;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 17px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 16px;
+            transition: all 0.4s;
+            z-index: 1;
+        }
+
+        .input-group label {
+            position: absolute;
+            left: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 1;
+        }
+
+        /* Focus & Filled States */
+        .input-group input:focus,
+        .input-group input:not(:placeholder-shown) {
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.08), rgba(79, 172, 254, 0.05));
+            box-shadow: 0 8px 24px rgba(0, 217, 255, 0.15), inset 0 1px 3px rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .input-group input:focus~label,
+        .input-group input:not(:placeholder-shown)~label {
+            top: -10px;
+            left: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--primary);
+            background: linear-gradient(90deg, var(--dark-bg) 0%, var(--dark-bg) 100%);
+            padding: 2px 8px;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .input-group input:focus~i {
+            color: var(--primary);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        /* Button */
+        button.primary-btn {
+            width: 100%;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            border-radius: 12px;
+            margin-top: 10px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button.primary-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        button.primary-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Switch Text */
+        .switch-form {
+            margin-top: 25px;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .switch-link {
+            color: var(--primary);
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            position: relative;
+            margin-left: 5px;
+            transition: color 0.3s;
+        }
+
+        .switch-link:hover {
+            color: var(--secondary);
+            text-shadow: 0 0 10px rgba(157, 78, 221, 0.5);
+        }
+
+        /* Error/Shake Animation */
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            20%,
+            60% {
+                transform: translateX(-10px);
+            }
+
+            40%,
+            80% {
+                transform: translateX(10px);
+            }
+        }
+
+        .shake {
+            animation: shake 0.4s ease-in-out;
+            border-color: var(--danger) !important;
+        }
+
+        /* Close Button Design */
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 10;
+        }
+
+        .close-btn:hover {
+            background: linear-gradient(135deg, rgba(255, 77, 87, 0.2), rgba(255, 107, 107, 0.1));
+            border-color: var(--danger);
+            color: var(--danger);
+            transform: rotate(90deg) scale(1.1);
+            box-shadow: 0 4px 15px rgba(255, 77, 87, 0.3);
+        }
+
+        .close-btn i {
+            font-size: 18px;
+            transition: transform 0.3s;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="auth-container">
+        <div class="bg-glow"></div>
+        <div class="bg-glow-alt"></div>
+
+        <div class="auth-perspective" id="card-container">
+
+            <!-- Login Side (Front) -->
+            <div class="auth-card active" id="login-card">
+                <a href="index.html" class="close-btn" title="Back to Home">
+                    <i class="fas fa-times"></i>
+                </a>
+                <div style="text-align: center;">
+                    <div class="auth-logo" onclick="window.location.href='index.html'">
+                        <i class="fas fa-microchip"></i>
+                        <span>Smart Tech Hub</span>
+                    </div>
+                    <h2 class="auth-title">Welcome Back!</h2>
+                    <p class="auth-subtitle">Login to access your personalized tech world</p>
+                </div>
+
+                <form id="login-form">
+                    <div class="input-group">
+                        <input type="text" id="login-email" placeholder=" " required>
+                        <i class="fas fa-envelope"></i>
+                        <label>Email or Username</label>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="password" id="login-password" placeholder=" " required>
+                        <i class="fas fa-lock"></i>
+                        <label>Password</label>
+                    </div>
+
+                    <div style="text-align: right; margin-bottom: 20px;">
+                        <a href="#" style="color: var(--text-muted); font-size: 12px; text-decoration: none;">Forgot
+                            Password?</a>
+                    </div>
+
+                    <button type="submit" class="primary-btn">SIGN IN</button>
+
+                    <div class="switch-form" style="text-align: center;">
+                        Don't have an account? <span class="switch-link" onclick="toggleFlip()">Create one now</span>
+                    </div>
+
+                    <p
+                        style="font-size: 12px; color: var(--text-muted); margin-top: 15px; text-align: center; opacity: 0.6;">
+                        (Admin Access: admin / admin)
+                    </p>
+                </form>
+            </div>
+
+            <!-- Signup Side (Back) -->
+            <div class="auth-card" id="signup-card">
+                <a href="index.html" class="close-btn" title="Back to Home">
+                    <i class="fas fa-times"></i>
+                </a>
+                <div style="text-align: center;">
+                    <div class="auth-logo" onclick="window.location.href='index.html'">
+                        <i class="fas fa-microchip"></i>
+                        <span>Smart Tech Hub</span>
+                    </div>
+                    <h2 class="auth-title">Join the Hub</h2>
+                    <p class="auth-subtitle">Create an account to start shopping</p>
+                </div>
+
+                <form id="signup-form">
+                    <div class="input-group">
+                        <input type="text" id="signup-name" placeholder=" " required>
+                        <i class="fas fa-user"></i>
+                        <label>Full Name</label>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="email" id="signup-email" placeholder=" " required>
+                        <i class="fas fa-envelope"></i>
+                        <label>Email Address</label>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="password" id="signup-pass" placeholder=" " required>
+                        <i class="fas fa-lock"></i>
+                        <label>Password</label>
+                    </div>
+
+                    <button type="submit" class="primary-btn">CREATE ACCOUNT</button>
+
+                    <div class="switch-form" style="text-align: center;">
+                        Already existing? <span class="switch-link" onclick="toggleFlip()">Log In here</span>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="sidebar-backdrop"></div>
+
+    <script src="data.js"></script>
+    <script>
+        // Initialize DB for Users
+        if (typeof DB !== 'undefined') {
+            DB.init();
+        }
+    </script>
+    <script src="auth.js"></script>
+    <script>
+        // Animation Logic
+        function toggleFlip() {
+            const loginCard = document.getElementById('login-card');
+            const signupCard = document.getElementById('signup-card');
+
+            if (loginCard.classList.contains('active')) {
+                // Switch to Signup
+                loginCard.classList.remove('active');
+                loginCard.classList.add('exit');
+
+                signupCard.classList.add('active');
+
+                setTimeout(() => {
+                    loginCard.classList.remove('exit');
+                }, 400);
+            } else {
+                // Switch to Login
+                signupCard.classList.remove('active');
+                signupCard.classList.add('exit');
+
+                loginCard.classList.add('active');
+
+                setTimeout(() => {
+                    signupCard.classList.remove('exit');
+                }, 400);
+            }
+        }
+
+        // Add shake effect to inputs if empty on submit (handled in auth.js mostly, but we can add visual feedback)
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('invalid', () => {
+                input.classList.add('shake');
+                setTimeout(() => input.classList.remove('shake'), 400);
+            });
+        });
+    </script>
+</body>
+
+</html>
