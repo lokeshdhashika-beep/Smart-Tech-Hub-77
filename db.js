@@ -243,6 +243,25 @@ async function initializeDB() {
                     [p.id, p.name, p.category, p.price, p.stock, p.image, p.description]);
             }
         }
+
+        // Seed Orders for Demo
+        const orderCount = await db.getAsync(`SELECT COUNT(*) as count FROM orders`);
+        if (orderCount.count === 0) {
+            const orderId1 = 'ord-10001';
+            await db.runAsync(`INSERT INTO orders (id, user_id, total, status, timestamp) VALUES (?, ?, ?, ?, ?)`,
+                [orderId1, 'u2', 8999, 'Delivered', new Date(Date.now() - 86400000).toISOString()]);
+            await db.runAsync(`INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)`,
+                [orderId1, 'ssd-001', 1, 8999]);
+
+            const orderId2 = 'ord-10002';
+            await db.runAsync(`INSERT INTO orders (id, user_id, total, status, timestamp) VALUES (?, ?, ?, ?, ?)`,
+                [orderId2, 'u2', 6600, 'Pending', new Date().toISOString()]);
+            await db.runAsync(`INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)`,
+                [orderId2, 'ram-003', 2, 2100]);
+            await db.runAsync(`INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)`,
+                [orderId2, 'cool-001', 1, 2400]);
+        }
+
         console.log('Database initialized successfully. Checked/Seeded ' + INITIAL_PRODUCTS.length + ' base products.');
     } catch (e) {
         console.error('Database initialization error:', e);
