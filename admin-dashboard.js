@@ -317,9 +317,10 @@ function renderInquiriesTable() {
     `}).join('');
 }
 
-window.deleteInquiry = function (id) {
+window.deleteInquiry = async function (id) {
     if (confirm('Are you sure you want to delete this inquiry?')) {
-        DB.deleteInquiry(id);
+        await DB.deleteInquiry(id);
+        inquiries = await DB.getInquiries();
         renderInquiriesTable();
     }
 };

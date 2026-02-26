@@ -112,6 +112,23 @@ async function initializeDB() {
             )
         `);
 
+        await db.runAsync(`
+            CREATE TABLE IF NOT EXISTS inquiries (
+                id TEXT PRIMARY KEY,
+                product_id TEXT,
+                customer_name TEXT,
+                customer_email TEXT,
+                customer_phone TEXT,
+                customer_payment TEXT,
+                customer_city TEXT,
+                customer_pin TEXT,
+                customer_landmark TEXT,
+                customer_address TEXT,
+                timestamp TEXT,
+                FOREIGN KEY(product_id) REFERENCES products(id)
+            )
+        `);
+
         // Seed Admin User
         const adminEmail = 'admin';
         const adminExt = await db.getAsync(`SELECT * FROM users WHERE email = ?`, [adminEmail]);
@@ -132,7 +149,7 @@ async function initializeDB() {
         const prodCount = await db.getAsync(`SELECT COUNT(*) as count FROM products`);
         if (prodCount.count === 0) {
             for (const p of INITIAL_PRODUCTS) {
-                await db.runAsync(`INSERT INTO products (id, name, category, price, stock, image, description) VALUES (?, ?, ?, ?, ?, ?, ?)`, 
+                await db.runAsync(`INSERT INTO products (id, name, category, price, stock, image, description) VALUES (?, ?, ?, ?, ?, ?, ?)`,
                     [p.id, p.name, p.category, p.price, p.stock, p.image, p.description]);
             }
             console.log('Seeded initial products.');

@@ -120,7 +120,31 @@ const DB = {
     },
 
     getInquiries: async function () {
+        const user = this.getCurrentUser();
+        if (!user || user.role !== 'admin') return [];
+        try {
+            const res = await fetch('/api/inquiries', { headers: this.getHeaders() });
+            if (res.ok) return await res.json();
+        } catch (e) { console.error(e); }
         return [];
+    },
+
+    saveInquiry: async function (inquiry) {
+        const res = await fetch('/api/inquiries', {
+            method: 'POST', headers: this.getHeaders(),
+            body: JSON.stringify(inquiry)
+        });
+        if (!res.ok) {
+            const data = await res.json();
+            throw new Error(data.error || 'Failed to submit inquiry');
+        }
+        return await res.json();
+    },
+
+    deleteInquiry: async function (id) {
+        const user = this.getCurrentUser();
+        if (!user || user.role !== 'admin') return;
+        await fetch(`/api/inquiries/${id}`, { method: 'DELETE', headers: this.getHeaders() });
     },
 
     getOrders: async function () {

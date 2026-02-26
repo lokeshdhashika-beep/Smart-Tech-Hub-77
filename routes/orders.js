@@ -56,7 +56,7 @@ router.get('/all', authenticate, requireAdmin, async (req, res) => {
         const orders = await db.allAsync(`
             SELECT o.*, u.name as user_name, u.email as user_email 
             FROM orders o 
-            JOIN users u ON o.user_id = u.id 
+            LEFT JOIN users u ON o.user_id = u.id 
             ORDER BY timestamp DESC
         `);
 

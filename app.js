@@ -678,18 +678,30 @@ function setupEventListeners() {
         buyNowForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const productId = document.getElementById('buy-now-product-id').value;
-            const product = await DB.getProduct(productId);
-            const user = DB.getCurrentUser();
-            const alertText = 'Direct inquiry not fully supported without checkout, please use Add to Cart.';
 
-            // Redirecting flow mostly back to checkout/cart instead of raw inquiries
-            alert(alertText);
+            const inquiryData = {
+                product_id: productId,
+                customer_name: document.getElementById('buyer-name').value,
+                customer_email: document.getElementById('buyer-email').value,
+                customer_phone: document.getElementById('buyer-phone').value,
+                customer_pin: document.getElementById('buyer-pin').value,
+                customer_address: document.getElementById('buyer-address').value,
+                customer_city: document.getElementById('buyer-city').value,
+                customer_landmark: document.getElementById('buyer-landmark').value,
+                customer_payment: document.getElementById('selected-payment-method').value
+            };
 
-            const progressContainer = document.querySelector('.wizard-progress-container');
-            if (progressContainer) progressContainer.style.display = 'none';
+            try {
+                await DB.saveInquiry(inquiryData);
 
-            document.getElementById('buy-now-form-container').classList.add('hidden');
-            document.getElementById('buy-now-success').classList.remove('hidden');
+                const progressContainer = document.querySelector('.wizard-progress-container');
+                if (progressContainer) progressContainer.style.display = 'none';
+
+                document.getElementById('buy-now-form-container').classList.add('hidden');
+                document.getElementById('buy-now-success').classList.remove('hidden');
+            } catch (err) {
+                alert('Failed to submit inquiry: ' + err.message);
+            }
         });
     }
 }
