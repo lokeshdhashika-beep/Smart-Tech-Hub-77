@@ -18,8 +18,7 @@ const views = {
     products: document.getElementById('view-products'),
     orders: document.getElementById('view-orders'),
     inquiries: document.getElementById('view-inquiries'),
-    users: document.getElementById('view-users'),
-    publicAccess: document.getElementById('view-public-access')
+    users: document.getElementById('view-users')
 };
 const navItems = document.querySelectorAll('.nav-item[data-view]');
 const productModal = document.getElementById('product-modal');
@@ -63,7 +62,6 @@ function setupNavigation() {
             if (viewName === 'orders') await renderOrdersTable();
             if (viewName === 'inquiries') renderInquiriesTable();
             if (viewName === 'users') renderUsersTable();
-            if (viewName === 'public-access') renderPublicAccess();
             if (viewName === 'dashboard') await updateDashboardStats();
         });
     });
@@ -325,11 +323,4 @@ window.deleteInquiry = async function (id) {
     }
 };
 
-function renderPublicAccess() {
-    const ipDisplay = document.getElementById('local-ip-display');
-    if (ipDisplay) {
-        ipDisplay.innerHTML = `
-            <span style="font-size: 14px; color: var(--accent);">Your device is now acting as a server! Devices on your network can access it. Ensure your Node.js process is running and firewall allows port 3000.</span>
-        `;
-    }
-}
+

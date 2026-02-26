@@ -183,52 +183,14 @@ header {
     justify-content: center;
     color: var(--text-main);
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.mobile-only {
-    display: none !important;
-}
-
-.desktop-only {
-    display: block !important;
-}
-
-@media (max-width: 1024px) {
-    .sidebar {
-        transform: translateX(-100%);
-        z-index: 1000;
-        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .sidebar.mobile-active {
-        transform: translateX(0);
-    }
-
-    .content-area {
-        margin-left: 0;
-    }
-
-    .menu-toggle {
-        display: flex;
-    }
-}
-
-@media (max-width: 768px) {
-    .mobile-only {
-        display: flex !important;
-    }
-
-    .desktop-only {
-        display: none !important;
-    }
+    transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .nav-btn:hover {
     background: var(--primary);
     color: #000;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 217, 255, 0.3);
+    transform: translateY(-4px) scale(1.05); /* Added scale pop */
+    box-shadow: 0 8px 20px rgba(0, 217, 255, 0.4);
 }
 
 .badge {
@@ -285,7 +247,7 @@ header {
     margin-bottom: 12px;
     border-radius: 12px;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     color: var(--text-muted);
     font-weight: 500;
     display: flex;
@@ -298,7 +260,7 @@ header {
 .category-item.active {
     background: rgba(255, 255, 255, 0.08);
     color: var(--primary);
-    transform: translateX(8px);
+    transform: translateX(10px);
     border-color: var(--glass-border);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
@@ -340,17 +302,15 @@ header {
     border: 1px solid var(--glass-border);
     border-radius: 28px;
     overflow: hidden;
-    border-radius: 28px;
-    overflow: hidden;
     position: relative;
-    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
 }
 
 .product-card:hover {
-    transform: translateY(-15px) scale(1.02);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 20px 40px rgba(0, 217, 255, 0.15);
     border-color: var(--primary);
     background: rgba(255, 255, 255, 0.06);
 }
@@ -424,7 +384,7 @@ header {
     border: 1px solid var(--glass-border);
     color: var(--text-main);
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -434,7 +394,7 @@ header {
     background: var(--primary);
     color: var(--dark-bg);
     box-shadow: 0 0 20px var(--primary);
-    transform: scale(1.05);
+    transform: scale(1.1) rotate(5deg);
 }
 
 .product-footer {
@@ -458,7 +418,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.2s ease;
 }
 
 .buy-btn {
@@ -470,7 +430,7 @@ header {
     color: #ffd700;
     font-size: 16px;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -480,8 +440,8 @@ header {
 .buy-btn:hover {
     background: #ffd700;
     color: #000;
-    transform: scale(1.05);
-    box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
 }
 
 .wishlist-btn:hover {

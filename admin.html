@@ -59,9 +59,7 @@
                 <a href="#" class="nav-item" data-view="inquiries">
                     <i class="fas fa-envelope-open-text"></i> Inquiries
                 </a>
-                <a href="#" class="nav-item" data-view="public-access">
-                    <i class="fas fa-globe"></i> Public Access
-                </a>
+
                 <a href="index.html" class="nav-item logout">
                     <i class="fas fa-sign-out-alt"></i> Back to Store
                 </a>
@@ -203,66 +201,7 @@
                 </div>
             </div>
 
-            <!-- Public Access View -->
-            <div id="view-public-access" class="content-view hidden">
-                <h2 class="view-title">Public Access & Unique IP Links</h2>
-                <div class="glass-panel" style="padding: 30px;">
-                    <div style="display: flex; gap: 30px; align-items: flex-start;">
-                        <div style="flex: 1;">
-                            <h3 style="color: var(--primary); margin-bottom: 15px;"><i class="fas fa-share-alt"></i> How
-                                to Share Unique Links</h3>
-                            <p style="color: var(--text-muted); line-height: 1.6; margin-bottom: 20px;">
-                                You can now generate <strong>Unique Links</strong> for every product!
-                                <br><br>
-                                1. Go to the main website home page.<br>
-                                2. Click the <i class="fas fa-link"
-                                    style="padding: 5px; background: rgba(255,255,255,0.1); border-radius: 4px;"></i>
-                                <strong>Share Icon</strong> on any product card.<br>
-                                3. The unique link (e.g., <code>#product-ram-001</code>) is copied to your
-                                clipboard.<br>
-                                4. Send this link to anyone on your network!
-                            </p>
 
-                            <h3 style="color: var(--accent); margin-bottom: 15px; margin-top: 30px;"><i
-                                    class="fas fa-globe"></i> How to Get a PUBLIC IP Address</h3>
-                            <p style="color: var(--text-muted); line-height: 1.6; margin-bottom: 15px;">
-                                To share your website with people <strong>outside your WiFi DO NOT USE
-                                    IPCONFIG</strong>, you need a tunneling service like <strong>ngrok</strong>.
-                            </p>
-                            <div
-                                style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 12px; border: 1px solid var(--glass-border);">
-                                <code
-                                    style="display: block; margin-bottom: 10px; color: #00ff7f;">1. Download ngrok from ngrok.com</code>
-                                <code
-                                    style="display: block; margin-bottom: 10px; color: #00ff7f;">2. Open Command Prompt and run:</code>
-                                <code
-                                    style="display: block; margin-bottom: 10px; font-weight: bold; color: white;">ngrok http 8080</code>
-                                <code
-                                    style="display: block; color: #00ff7f;">3. Copy the 'Forwarding' URL (e.g., https://a1b2c3d4.ngrok.io)</code>
-                            </div>
-                            <p style="color: var(--text-muted); margin-top: 15px; font-size: 13px;">
-                                <em>Note: The generated ngrok URL is your "Unique Public IP Link".</em>
-                            </p>
-                        </div>
-                        <div
-                            style="width: 300px; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; text-align: center;">
-                            <i class="fas fa-network-wired"
-                                style="font-size: 50px; color: var(--secondary); margin-bottom: 20px;"></i>
-                            <h4>Local Network IP</h4>
-                            <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 15px;">Use this for
-                                devices on same WiFi</p>
-                            <div id="local-ip-display"
-                                style="font-size: 20px; font-weight: bold; color: white; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px;">
-                                Loading...
-                            </div>
-                            <button class="primary-btn" onclick="window.location.reload()"
-                                style="margin-top: 20px; width: 100%;">
-                                Refresh IP
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
     </div>
 
     </main>

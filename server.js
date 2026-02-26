@@ -23,6 +23,20 @@ app.use('/api/cart', require('./routes/cart'));
 app.use('/api/orders', require('./routes/orders'));
 app.use('/api/inquiries', require('./routes/inquiries'));
 
+// Keep-alive route for Render
+app.get('/api/ping', (req, res) => res.send('ok'));
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
+
+    // Ping itself every 10 minutes to prevent Render inactivity
+    const url = process.env.RENDER_EXTERNAL_URL || `http://localhost:${PORT}`;
+    setInterval(async () => {
+        try {
+            await fetch(`${url}/api/ping`);
+            console.log('Pinged server to keep alive...');
+        } catch (e) {
+            console.log('Ping failed:', e.message);
+        }
+    }, 10 * 60 * 1000); // 10 minutes
 });
